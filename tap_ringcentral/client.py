@@ -21,7 +21,11 @@ class RingCentralClient:
         self.config = config
         self.base_url = self.config.get('api_url')
 
-        self.refresh_token, self.access_token = self.get_authorization()
+        if self.config.get('refresh_token', None) and self.config.get('access_token', None):
+            self.refresh_token = self.config.get('refresh_token')
+            self.access_token = self.config.get('access_token')
+        else:
+            self.refresh_token, self.access_token = self.get_authorization()
 
     def get_authorization(self):
         client_id = self.config.get('client_id')
