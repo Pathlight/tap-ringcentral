@@ -47,10 +47,8 @@ class RingCentralRunner(tap_framework.Runner):
 @singer.utils.handle_top_exception(LOGGER)
 def main():
     args = singer.utils.parse_args(required_config_keys=[
-        'client_id',
-        'client_secret',
-        'username',
-        'password',
+        'access_token',
+        'refresh_token',
         'api_url',
         'start_date'
     ])

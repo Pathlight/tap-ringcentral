@@ -80,8 +80,9 @@ class RingCentralClient:
             raise APIException("Rate limit exceeded")
 
         elif response.status_code in [401, 403]:
-            # Unauthorized - has the token expired?
-            self.refresh_token, self.access_token = self.get_authorization()
+            # Unauthorized - has the token expired? Handled by accounts.tasks
+            # self.refresh_token, self.access_token = self.get_authorization()
+            LOGGER.info("Token got expired") 
             raise APIException("Token expired - refetching")
 
         elif response.status_code != 200:
