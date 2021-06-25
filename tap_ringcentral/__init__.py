@@ -39,6 +39,9 @@ class RingCentralRunner(tap_framework.Runner):
                 LOGGER.error(str(e))
                 LOGGER.error('Failed to sync endpoint {}, moving on!'
                              .format(stream.TABLE))
+
+		self.state = stream.state
+        	save_state(self.state)
                 raise e
 
         save_state(self.state)
