@@ -109,6 +109,11 @@ class ContactBaseStream(BaseStream):
             xf.append(record_xf)
         return xf
 
+    def get_sleep_time(self):
+        # call_log / company_call_log are heavy and message is light API.
+        stime = {'call_log': 4, 'company_call_log': 4, 'messages': 1}
+        return stime.get(TABLE, 5)
+
     def sync_data_for_extension(self, date, interval, extensionId):
         table = self.TABLE
 
@@ -135,8 +140,8 @@ class ContactBaseStream(BaseStream):
                 self.api_path.format(extensionId=extensionId)
             )
 
-            # The API rate limits us pretty aggressively
-            time.sleep(5)
+            # The API rate limits us pretty aggressively - originally, 5 seconds
+            time.sleep(self.get_sleep_time())
 
             result = self.client.make_request(
                 url, self.API_METHOD, params=params, body=body)
