@@ -141,7 +141,13 @@ class ContactBaseStream(BaseStream):
             )
 
             # The API rate limits us pretty aggressively - originally, 5 seconds
-            time.sleep(self.get_sleep_time())
+            stime = self.get_sleep_time()
+            LOGGER.info('ringcentral: adaptive sleep set to {} seconds for {}'.format(
+                stime,
+                self.TABLE
+            ))
+
+            time.sleep(stime)
 
             result = self.client.make_request(
                 url, self.API_METHOD, params=params, body=body)
