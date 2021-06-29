@@ -27,6 +27,8 @@ class RingCentralClient:
         else:
             self.refresh_token, self.access_token = self.get_authorization()
 
+    # This is not used, as we currently have a separate token refresh function. 
+    # We keep the code, in case we need a password-based authentication in future. 
     def get_authorization(self):
         client_id = self.config.get('client_id')
         client_secret = self.config.get('client_secret')
@@ -72,7 +74,6 @@ class RingCentralClient:
 
         LOGGER.info("Got status code {}".format(response.status_code))
 
-
         if response.status_code == 429:
             timeout = response.headers['Retry-After']
             LOGGER.info("Rate limit status code received, waiting {} seconds".format(timeout))
@@ -80,10 +81,12 @@ class RingCentralClient:
             raise APIException("Rate limit exceeded")
 
         elif response.status_code in [401, 403]:
-            # Unauthorized - has the token expired? Handled by accounts.tasks
+            # Unauthorized - has the token expired?
+
+            # Token refresh is handled by accounts.task -- wait for a moment.  
             # self.refresh_token, self.access_token = self.get_authorization()
             LOGGER.info("Token got expired") 
-            raise APIException("Token expired - refetching")
+            raise APIException("Token expired")
 
         elif response.status_code != 200:
             raise APIException(response.text)
