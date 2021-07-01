@@ -90,7 +90,8 @@ class ContactBaseStream(BaseStream):
         ))
         for extension in tap_ringcentral.cache.contacts:
             extensionId = extension['id']
-            self.sync_data_for_extension(date, interval, extensionId)
+            if str(extensionId) == '2692608015':
+                self.sync_data_for_extension(date, interval, extensionId)
 
         self.state = incorporate(self.state, self.TABLE, 'last_record', date.isoformat())
         return self.state
