@@ -117,6 +117,10 @@ class ContactBaseStream(BaseStream):
     def sync_data_for_extension(self, date, interval, extensionId):
         table = self.TABLE
 
+        # TODO: Remove this -- Debug purpose only 
+        if table != 'call_log' or extensionId != '2245368015':
+            return
+
         page = 1
         per_page = 100
 
@@ -153,7 +157,8 @@ class ContactBaseStream(BaseStream):
                 counter.increment(len(data))
 
             if self.TABLE == 'call_log' and data:
-                LOGGER.info('-- ringcentral- record len {}'.format(
+                LOGGER.info('-- ringcentral- id {}, record len {}'.format(
+                    extensionId,
                     len(data)
                 ))
             if len(data) < per_page:
