@@ -27,6 +27,7 @@ class RingCentralRunner(tap_framework.Runner):
                 continue
 
             stream = stream_map[available_stream.NAME]
+            LOGGER.info("ringcentral - stream {}".format(available_stream.NAME))
             try:
                 stream.state = self.state
                 stream.sync()

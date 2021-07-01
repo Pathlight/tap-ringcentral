@@ -85,6 +85,9 @@ class ContactBaseStream(BaseStream):
             save_state(self.state)
 
     def sync_data_for_period(self, date, interval):
+        LOGGER.info('ringcentral - sync data for period table {}'.format(
+                self.TABLE
+        ))
         for extension in tap_ringcentral.cache.contacts:
             extensionId = extension['id']
             # TODO: Debugging purpose only

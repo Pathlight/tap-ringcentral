@@ -85,7 +85,6 @@ class RingCentralClient:
 
             # Token refresh is handled by accounts.task -- wait for a moment.
             # self.refresh_token, self.access_token = self.get_authorization()
-            LOGGER.info("Token got expired") 
             raise APIException("Token expired")
 
         elif response.status_code != 200:
