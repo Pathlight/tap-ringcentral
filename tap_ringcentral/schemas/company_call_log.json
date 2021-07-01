@@ -32,6 +32,9 @@
         "result": {
             "type": ["null", "string"]
         },
+        "telephonySessionId": {
+            "type": ["null", "string"]
+        },
         "deleted": {},
         "reason": {},
         "reasonDescription": {},
@@ -54,6 +57,9 @@
             "type": "object",
             "properties": {
                 "phoneNumber": {
+                    "type": ["null", "string"]
+                },
+                "extensionId": {
                     "type": ["null", "string"]
                 },
                 "location": {

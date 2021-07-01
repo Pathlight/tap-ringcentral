@@ -10,6 +10,9 @@
         "id": {
             "type": "string"
         },
+        "extensionId": {
+            "type": ["null", "integer"]
+        },
         "to": {},
         "type": {
             "type": "string"

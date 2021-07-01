@@ -41,6 +41,9 @@
             "items": {
                 "type": "object",
                 "properties": {
+                    "formattedPhoneNumber": {
+                        "type": "string"
+                    },
                     "type": {
                         "type": "string"
                     },
@@ -49,6 +52,12 @@
                     },
                     "usageType": {
                         "type": "string"
+                    },
+                    "hidden": {
+                        "type": "boolean"
+                    },
+                    "primary": {
+                        "type": "boolean"
                     }
                 }
             }
