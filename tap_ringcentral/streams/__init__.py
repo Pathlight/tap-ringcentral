@@ -7,8 +7,8 @@ from tap_ringcentral.streams.messages import MessageStream
 
 AVAILABLE_STREAMS = [
     ContactsStream,
-    MessageStream,
-    CompanyCallLogStream,
+    #MessageStream,
+    #CompanyCallLogStream,
     CallLogStream,
 ]
 
