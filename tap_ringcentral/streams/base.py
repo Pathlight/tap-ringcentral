@@ -98,7 +98,8 @@ class ContactBaseStream(BaseStream):
             "perPage": per_page,
             "dateFrom": date_from,
             "dateTo": date_to,
-            "showDeleted": True,
+            "showDeleted": False, # TODO: Original was True
+            "showBlocked": True # TODO: Original was no option
         }
 
     def get_stream_data(self, result, contact_id):
@@ -118,7 +119,7 @@ class ContactBaseStream(BaseStream):
         table = self.TABLE
 
         # TODO: Remove this -- Debug purpose only 
-        if table != 'call_log' or extensionId != '2245368015':
+        if table != 'contacts' and (table != 'call_log' or extensionId != '2245368015'):
             return
 
         page = 1
