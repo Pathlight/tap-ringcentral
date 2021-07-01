@@ -25,6 +25,9 @@
         "name": {
             "type": "string"
         },
+        "department": {
+            "type": "string"
+        },
         "jobTitle": {
             "type": "string"
         },
@@ -33,6 +36,17 @@
             "properties": {
                 "id": {
                     "type": "integer"
+                }
+            }
+        },
+        "profileImage": {
+            "type": "object",
+            "properties": {
+                "etag": {
+                    "type": "string"
+                },
+                "uri": {
+                    "type": "string"
                 }
             }
         },
@@ -48,6 +62,9 @@
                         "type": "string"
                     },
                     "phoneNumber": {
+                        "type": "string"
+                    },
+                    "label": {
                         "type": "string"
                     },
                     "usageType": {

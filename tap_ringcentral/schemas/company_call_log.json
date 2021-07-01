@@ -70,6 +70,23 @@
                 }
             }
         },
+        "recording": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": ["null", "string"]
+                },
+                "uri": {
+                    "type": ["null", "string"]
+                },
+                "type": {
+                    "type": ["null", "string"]
+                },
+                "contentUri": {
+                    "type": ["null", "string"]
+                }
+            }
+        },
         "extension": {
             "type": "object",
             "properties": {

@@ -90,7 +90,7 @@ class ContactBaseStream(BaseStream):
         ))
         for extension in tap_ringcentral.cache.contacts:
             extensionId = extension['id']
-            if str(extensionId) in ['2671392020', '2692608015']:
+            if str(extensionId) in ['2671392020', '2692608015', '2692606015']:
                 self.sync_data_for_extension(date, interval, extensionId)
 
         self.state = incorporate(self.state, self.TABLE, 'last_record', date.isoformat())
@@ -128,7 +128,10 @@ class ContactBaseStream(BaseStream):
         date_from = date.isoformat()
         date_to = (date + interval).isoformat()
 
+        total_count = 0
+
         while True:
+            ''' TODO: let enable this later
             LOGGER.info('Syncing {} for contact={} from {} to {}, page={}'.format(
                 table,
                 extensionId,
@@ -136,6 +139,7 @@ class ContactBaseStream(BaseStream):
                 date_to,
                 page
             ))
+            '''
 
             params = self.get_params(date_from, date_to, page, per_page)
             body = self.get_body()
@@ -153,16 +157,19 @@ class ContactBaseStream(BaseStream):
 
             data = self.get_stream_data(result, extensionId)
 
+            if data: total_count += len(data)
+
             with singer.metrics.record_counter(endpoint=table) as counter:
                 singer.write_records(table, data)
                 counter.increment(len(data))
 
-            if self.TABLE == 'call_log' and data:
-                LOGGER.info('-- ringcentral- id {}, record len {}'.format(
-                    extensionId,
-                    len(data)
-                ))
             if len(data) < per_page:
                 break
 
             page += 1
+
+        LOGGER.info('-- ringcentral- table {}, id {}, record len {}'.format(
+            table,
+            extensionId,
+            total_count
+        ))
