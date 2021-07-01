@@ -141,13 +141,7 @@ class ContactBaseStream(BaseStream):
             )
 
             # The API rate limits us pretty aggressively - originally, 5 seconds
-            stime = self.get_sleep_time()
-            LOGGER.info('ringcentral: adaptive sleep set to {} seconds for {}'.format(
-                stime,
-                self.TABLE
-            ))
-
-            time.sleep(stime)
+            time.sleep(self.get_sleep_time()) 
 
             result = self.client.make_request(
                 url, self.API_METHOD, params=params, body=body)
@@ -158,6 +152,10 @@ class ContactBaseStream(BaseStream):
                 singer.write_records(table, data)
                 counter.increment(len(data))
 
+            if self.TABLE == 'call_log' and data:
+                LOGGER.info('-- ringcentral- record len {}'.format(
+                    len(data)
+                ))
             if len(data) < per_page:
                 break
 

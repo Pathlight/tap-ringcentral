@@ -40,7 +40,7 @@ class RingCentralRunner(tap_framework.Runner):
                 LOGGER.error('Failed to sync endpoint {}, moving on!'
                              .format(stream.TABLE))
 
-                # Store a current state before exit 
+                # Store a current state before exit
                 self.state = stream.state
                 save_state(self.state)
                 raise e
