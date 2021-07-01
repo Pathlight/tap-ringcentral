@@ -90,9 +90,7 @@ class ContactBaseStream(BaseStream):
         ))
         for extension in tap_ringcentral.cache.contacts:
             extensionId = extension['id']
-            # TODO: Debugging purpose only
-            if str(extensionId) == '2671392020':
-                self.sync_data_for_extension(date, interval, extensionId)
+            self.sync_data_for_extension(date, interval, extensionId)
 
         self.state = incorporate(self.state, self.TABLE, 'last_record', date.isoformat())
         return self.state
@@ -103,7 +101,7 @@ class ContactBaseStream(BaseStream):
             "perPage": per_page,
             "dateFrom": date_from,
             "dateTo": date_to,
-            "showDeleted": False, # TODO: Original was True
+            "showDeleted": True,
             "showBlocked": True # TODO: Original was no option
         }
 
