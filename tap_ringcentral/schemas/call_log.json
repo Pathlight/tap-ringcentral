@@ -32,6 +32,9 @@
         "action": {
             "type": ["null", "string"]
         },
+        "shortRecording": {
+            "type": ["null", "boolean"]
+        },
         "result": {
             "type": ["null", "string"]
         },
@@ -53,6 +56,9 @@
                 },
                 "extensionId": {
                     "type": ["null", "string"]
+                },
+                "extensionNumber": {
+                    "type": ["null", "string"]
                 }
             }
         },
@@ -69,6 +75,9 @@
                     "type": ["null", "string"]
                 },
                 "extensionId": {
+                    "type": ["null", "string"]
+                },
+                "extensionNumber": {
                     "type": ["null", "string"]
                 }
             }
