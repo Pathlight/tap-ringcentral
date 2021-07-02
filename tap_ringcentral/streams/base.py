@@ -90,8 +90,7 @@ class ContactBaseStream(BaseStream):
         ))
         for extension in tap_ringcentral.cache.contacts:
             extensionId = extension['id']
-            if str(extensionId) in ['2671392020', '2692608015', '2692606015']:
-                self.sync_data_for_extension(date, interval, extensionId)
+            self.sync_data_for_extension(date, interval, extensionId)
 
         self.state = incorporate(self.state, self.TABLE, 'last_record', date.isoformat())
         return self.state
@@ -103,7 +102,7 @@ class ContactBaseStream(BaseStream):
             "dateFrom": date_from,
             "dateTo": date_to,
             "showDeleted": True,
-            "showBlocked": True # TODO: Original was no option
+            "showBlocked": True 
         }
 
     def get_stream_data(self, result, contact_id):
@@ -115,7 +114,7 @@ class ContactBaseStream(BaseStream):
         return xf
 
     def get_sleep_time(self):
-        # call_log / company_call_log are heavy and message is light API.
+        # 'call_log' / 'company_call_log' are heavy APIs and 'messages' is light.
         stime = {'call_log': 5, 'company_call_log': 5, 'messages': 1}
         return stime.get(self.TABLE, 5)
 
@@ -128,10 +127,7 @@ class ContactBaseStream(BaseStream):
         date_from = date.isoformat()
         date_to = (date + interval).isoformat()
 
-        total_count = 0
-
         while True:
-            ''' TODO: let enable this later
             LOGGER.info('Syncing {} for contact={} from {} to {}, page={}'.format(
                 table,
                 extensionId,
@@ -139,7 +135,6 @@ class ContactBaseStream(BaseStream):
                 date_to,
                 page
             ))
-            '''
 
             params = self.get_params(date_from, date_to, page, per_page)
             body = self.get_body()
@@ -149,15 +144,12 @@ class ContactBaseStream(BaseStream):
                 self.api_path.format(extensionId=extensionId)
             )
 
-            # The API rate limits us pretty aggressively - originally, 5 seconds
+            # The API rate limits us pretty aggressively (5secon): make it dynamic. 
             time.sleep(self.get_sleep_time()) 
 
             result = self.client.make_request(
                 url, self.API_METHOD, params=params, body=body)
-
             data = self.get_stream_data(result, extensionId)
-
-            if data: total_count += len(data)
 
             with singer.metrics.record_counter(endpoint=table) as counter:
                 singer.write_records(table, data)
@@ -167,9 +159,3 @@ class ContactBaseStream(BaseStream):
                 break
 
             page += 1
-
-        LOGGER.info('-- ringcentral- table {}, id {}, record len {}'.format(
-            table,
-            extensionId,
-            total_count
-        ))
